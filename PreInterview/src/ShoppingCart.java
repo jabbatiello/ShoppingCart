@@ -35,11 +35,43 @@ public class ShoppingCart {
 
         // outputs the number of apples and oranges
         System.out.println("Apples: "+appleCount+"\nOranges: "+orangeCount);
-        
-        // sums up the total price of the produce, then formats it to a value that makes sense
-        total = appleCount*60+orangeCount*25;
+
+        total = checkout(appleCount, orangeCount);
+
         String totalFormat = String.format("%.2f", total/100);
 
         System.out.println("Total Price: £"+totalFormat);
+
+    }
+
+    /**
+     * This class calculates the total of purchased apples and oranges, with Buy one Get one Apples,
+     * and Buy 3 for the price of 2 Oranges
+     * @param appleCount
+     * @param orangeCount
+     * @return total of purchase
+     */
+    public static double checkout(int appleCount, int orangeCount){
+
+        double total;
+        // for every two apples, charge for 1.
+        if (appleCount % 2 == 0){
+            appleCount = appleCount/2;
+        }
+        else if (appleCount % 2 == 1){
+            appleCount = ((appleCount-1)/2)+1;
+        }
+
+        //for every 3 oranges, charge for 2
+        //get remainder of oranges after sets of 3
+        int remainder = orangeCount%3;
+        //get the number or oranges in multiples of 3
+        int orangeSplit = orangeCount-remainder;
+        //charge for 2 oranges every 3, then add the remainder back
+        int orangesCharged = ((orangeSplit/3)*2)+remainder;
+
+        // sums up the total price of the produce, then formats it to a value that makes sense
+        total = appleCount*60+orangesCharged*25;
+        return total;
     }
 }
